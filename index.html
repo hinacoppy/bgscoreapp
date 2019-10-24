@@ -15,6 +15,9 @@
 
 <style>
 /* document outline ----------------------------------------- */
+*{
+  user-select:none;
+}
 html{
   height:100%;
 }
@@ -58,17 +61,17 @@ body{
 /* Contents decorations ------------------------------------- */
 #matchinfo {
   width:18vw;
-  height:200px;
-  line-height:200px;
+  height:30vh;
+  line-height:30vh;
   text-align:center;
-  font-size:100px;
+  font-size:10vw;
   border-radius:20px;
   background-color:#f25;
 }
 #crawfordinfo {
-  margin-top:50px;
-  height:300px;
-  font-size:30px;
+  margin-top:5vh;
+  height:30vh;
+  font-size:3vw;
   text-align:center;
 }
 /* Flip Card styles ------------------------------------- */
@@ -256,13 +259,13 @@ $(function () {
   $("#score1, #score2").on("swiperight swipeleft click", function(e) {
     const player = parseInt($(this).attr("id").slice(-1));
 console.log("cardcontainer ", e.type);
-    if (e.type == "swiperight") {
-      swipped = true;
-console.log("cardcontainer swiperight", player);
-      cardFlipDown(player);
-    } else if (e.type == "swipeleft") {
+    if (e.type == "swipeleft") {
       swipped = true;
 console.log("cardcontainer swipeleft", player);
+      cardFlipDown(player);
+    } else if (e.type == "swiperight") {
+      swipped = true;
+console.log("cardcontainer swiperight", player);
       cardFlipUp(player);
     } else {
       if (swipped) { // ignore this tap
