@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <meta name="description" content="Backgammon Score board App">
+  <meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App">
+  <meta name="author" content="(C)hinacoppy 2019">
+  <!-- link rel="stylesheet" href="css/bgscore.css" -->
+  <!-- link rel="icon" href="./favicon.ico" -->
+  <!-- link rel="apple-touch-icon" href="./apple-touch-icon.png" -->
+  <title>bgscore</title>
+
+<style>
+/* document outline ----------------------------------------- */
+html{
+  height:100%;
+}
+body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  height:100%;
+  background-color:#efe;
+  font-family:'Arial', 'Meiryo UI';
+}
+/* Grid Layout settings ------------------------------------- */
+/* 以下すべて相対サイズにし、レスポンシブ対応可能にしておく */
+#container{
+  display:grid; /* Grid Layout でコンテンツを配置 */
+  grid-template-columns:40% 20% 40%;
+  grid-template-areas:
+     'nav    nav          nav'
+     'score1 matchinfo    score2'
+     'score1 crawfordinfo score2'
+     'score1 settings     score2';
+  align-items:center; /* 子アイテムはデフォで上下左右に中央揃え */
+  justify-items:center;
+}
+#score1{
+  grid-area:score1;
+}
+#score2{
+  grid-area:score2;
+}
+#matchinfo{
+  grid-area:matchinfo;
+}
+#crawfordinfo{
+  grid-area:crawfordinfo;
+}
+#settings{
+  grid-area:settings;
+}
+
+/* Contents decorations ------------------------------------- */
+#matchinfo {
+  width:18vw;
+  height:200px;
+  line-height:200px;
+  text-align:center;
+  font-size:100px;
+  border-radius:20px;
+  background-color:#f25;
+}
+#crawfordinfo {
+  margin-top:50px;
+  height:300px;
+  font-size:30px;
+  text-align:center;
+}
+/* Flip Card styles ------------------------------------- */
+.cardcontainer {
+  position:relative;
+/*  float:left;
+  padding:20px 20px;
+  margin:20px 20px;*/
+  width:38vw;
+  height:90vh;
+  cursor:pointer;
+  border-radius:20px;
+}
+.card {
+  position:absolute;
+  top:0;
+  left:0;
+  width:38vw;
+  height:90vh;
+  line-height:90vh;
+  border-radius:20px;
+  text-align:center;
+  font-size:25vw;
+  transform-style:preserve-3d;
+}
+.curr {
+  transform:perspective(1000px) rotateX(0deg);
+  background-color:#fe3;
+}
+.next {
+  transform:perspective(1000px) rotateX(90deg);
+  background-color:#3fb;
+}
+.prev {
+  transform:perspective(1000px) rotateX(-90deg);
+  background-color:#b3f;
+}
+.flipup90 {
+  transform:perspective(1000px) rotateX(-90deg);
+  transition:ease-out 0.3s transform;
+}
+.flipdn90 {
+  transform:perspective(1000px) rotateX(90deg);
+  transition:ease-out 0.3s transform;
+}
+.flipdn0 {
+  transform:perspective(1000px) rotateX(0deg);
+  transition:ease-out 0.3s transform;
+}
+.flipup0 {
+  transform:perspective(1000px) rotateX(0deg);
+  transition:ease-out 0.3s transform;
+}
+/* settingwindow decorations ------------------------------------- */
+#settingwindow{
+  position:absolute;
+  display:none;
+  z-index:5;
+  border-radius:10px;
+}
+#settingwindow input,select{
+  font-size:100%;
+}
+.popupwindow{
+  background-color:#dff;
+  border:3px solid #00f;
+  padding:2vh 4vw;
+  font-size:1.8vw;
+}
+.popuptitle{
+  font-size:2.2vw;
+  color:#fff;
+  background-color:#46f;
+  padding:2vh 2vw;
+  margin-bottom:2vh;
+}
+.oparationbtn{
+  background-color:#dff;
+  border:3px solid #d0f;
+  border-radius:20px;
+  padding:10px 20px;
+  font-size:1.8vw;
+}
+</style>
+</head>
+
+<body>
+<article id="container">
+<div id="score1">
+<div class="cardcontainer">
+<div id="score1curr" class="card curr">0</div>
+<div id="score1next" class="card next">0</div>
+</div></div>
+
+<div id="score2">
+<div class="cardcontainer">
+<div id="score2curr" class="card curr">0</div>
+<div id="score2next" class="card next">0</div>
+</div></div>
+
+<div id="matchinfo">5</div>
+<div id="crawfordinfo"></div>
+<div id="settings" class="oparationbtn">SETTINGS</div>
+</article>
+
+<!-- 設定画面 -->
+<aside id="settingwindow" class="popupwindow">
+<div class="popuptitle">### Backgammon Score board App Settings ###</div>
+Match length:
+<select id="matchlength" name="matchlength">
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5" selected>5</option>
+<option value="7">7</option>
+<option value="9">9</option>
+<option value="11">11</option>
+<option value="13">13</option>
+<option value="15">15</option>
+<option value="17">17</option>
+<option value="19">19</option>
+<option value="21">21</option>
+<option value="23">23</option>
+<option value="25">25</option>
+</select>
+(0 = Unlimited)
+
+<br><br><br><br>
+<span id="applybtn" class="oparationbtn">APPLY</span> &emsp;&emsp;
+<span id="cancelbtn" class="oparationbtn">CANCEL</span>
+</aside>
+
+<!--
+<nav id="nav">
+<button id="score1up">SCORE 1 UP</button>
+<button id="score1dn">SCORE 1 DN</button>
+<button id="score2up">SCORE 2 UP</button>
+<button id="score2dn">SCORE 2 DN</button>
+</nav>
+-->
+
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/swipeupdown.js"></script>
+<!-- script src="js/jquerymobile-swipeupdown.js"></script -->
+<script>
+// Backgammon Score board App
+// writen by hinacoppy 2019
+// inspired by hkitago's bgscore app
+"use strict";
+
+var score = [0, 0, 0];
+var maxscore = 5;
+var crawford = 0;
+var cfplayer = 0;
+var matchlength = 5;
+var settingwindowflg = false; //true＝設定画面、false＝スコアカード画面
+
+$(function () {
+
+  //設定画面の[APPLY] ボタンがクリックされたとき
+  $("#applybtn").on("click", function(e) {
+    settingwindowflg = false;
+    reset_score();
+    $("#settingwindow").slideUp("normal");
+  });
+
+  //設定画面の[CANCEL] ボタンがクリックされたとき
+  $("#cancelbtn").on("click", function(e) {
+    settingwindowflg = false;
+    $("#settingwindow").slideUp("normal"); //設定画面を消す
+  });
+
+  //メイン画面の[SETTING] ボタンがクリックされたとき
+  $("#settings").on("click", function(e) {
+    if (settingwindowflg) { return; } //設定画面が開いているときは何もしない
+    settingwindowflg = true;
+    const topleft = winposition( $("#settingwindow") );
+    $("#settingwindow").css(topleft).slideDown("normal"); //画面表示
+  });
+
+  //スコアカードがスワイプあるいはタップされたとき→1枚めくる
+  let swipped;
+  $("#score1, #score2").on("swipeup swipedown click", function(e) {
+    const player = parseInt($(this).attr("id").slice(-1));
+console.log("cardcontainer ", e.type);
+    if (e.type == "swipedown") {
+      swipped = true;
+console.log("cardcontainer swipedown", player);
+      cardFlipDown(player);
+    } else if (e.type == "swipeup") {
+      swipped = true;
+console.log("cardcontainer swipeup", player);
+      cardFlipUp(player);
+    } else {
+      if (swipped) { // ignore this tap
+        swipped = false;
+      } else {
+console.log("cardcontainer tap", player);
+        cardFlipUp(player);
+      }
+    }
+  });
+
+
+  $("#score1up").on("click", function(e) {
+    console.log("score1up click");
+    cardFlipUp(1);
+  });
+  $("#score1dn").on("click", function(e) {
+    console.log("score1dn click");
+    cardFlipDown(1);
+  });
+  $("#score2up").on("click", function(e) {
+    console.log("score2up click");
+    cardFlipUp(2);
+  });
+  $("#score2dn").on("click", function(e) {
+    console.log("score2dn click");
+    cardFlipDown(2);
+  });
+
+});
+
+//カードをめくる(大きくなる方向に)
+function cardFlipUp(player) {
+    const cardcurr = $("#score" + player + "curr");
+    const cardnext = $("#score" + player + "next");
+
+    const scrcurr = score[player];
+    const scrnext = nextscore(scrcurr, +1);
+    score[player] = scrnext;
+
+    if (scrcurr == scrnext) { return; }
+
+    cardnext.text(scrnext).addClass("next");
+    cardcurr.addClass("flipup90");
+    setTimeout(function(){
+        cardnext.addClass("flipup0");
+    } , 300);
+    setTimeout(function(){
+        cardcurr.text(scrnext).removeClass("flipup90");
+        cardnext.removeClass("flipup0 next");
+        check_crawford(player);
+    } , 1000);
+}
+
+//カードをめくる(小さくなる方向に)
+function cardFlipDown(player) {
+    const cardcurr = $("#score" + player + "curr");
+    const cardprev = $("#score" + player + "next");
+
+    const scrcurr = score[player];
+    const scrnext = nextscore(scrcurr, -1);
+    score[player] = scrnext;
+
+    if (scrcurr == scrnext) { return; }
+
+    cardprev.text(scrnext).addClass("prev");
+    cardcurr.addClass("flipdn90");
+    setTimeout(function(){
+        cardprev.addClass("flipdn0");
+    } , 300);
+    setTimeout(function(){
+        cardcurr.text(scrnext).removeClass("flipdn90");
+        cardprev.removeClass("flipdn0 prev");
+        check_crawford(player);
+    } , 1000);
+}
+
+//次カードのスコアを計算
+function nextscore(sc, delta) {
+  let nx = sc + delta;
+  if (nx > maxscore) { nx = maxscore; }
+  if (nx < 0) { nx = 0; }
+  return nx;
+}
+
+//Crawfordかどうかを判断
+function check_crawford(player) {
+  let cfstr;
+  if (matchlength - score[player] == 1 && crawford == 0) {
+    crawford = 1; cfplayer = player; cfstr = "Crawford";
+  } else if (crawford == 2 || (crawford == 1 && cfplayer != player)) {
+    crawford = 2; cfplayer = 0;      cfstr = "Post Crawford";
+  } else {
+    crawford = 0; cfplayer = 0;      cfstr = "";
+  }
+
+  $("#crawfordinfo").text(cfstr);
+}
+
+//画面中央に表示するための左上座標を計算
+function winposition(winobj) {
+  let wx = $(document).scrollLeft() + ($(window).width() - winobj.outerWidth()) / 2;
+  if (wx < 0) { wx = 0; }
+  let wy = $(document).scrollTop() + ($(window).height() - winobj.outerHeight()) / 2;
+  if (wy < 0) { wy = 0; }
+  return {top:wy, left:wx};
+}
+
+//設定画面でapplyした際に初期設定に戻す
+function reset_score() {
+  score = [0, 0, 0];
+  crawford = 0;
+  cfplayer = 0;
+  matchlength = $("#matchlength").val();
+  maxscore = (matchlength == 0) ? 99 : matchlength;
+  const matchinfostr = (matchlength == 0) ? "$" : matchlength;
+  $("#matchinfo").text(matchinfostr);
+  $("#crawfordinfo").text("");
+  $("#score1curr,#score1next").text(score[1]);
+  $("#score2curr,#score2next").text(score[2]);
+}
+</script>
+</body>
+</html>
