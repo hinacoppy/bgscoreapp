@@ -213,7 +213,8 @@ Match length:
 
 <script src="js/jquery-3.4.1.min.js"></script>
 <!-- script src="js/swipeupdown.js"></script -->
-<script src="js/jquerymobile-swipeupdown.js"></script>
+<!-- script src="js/jquerymobile-swipeupdown.js"></script -->
+<script src="js/jquery.mobile-events.min.js"></script>
 <script>
 // Backgammon Score board App
 // writen by hinacoppy 2019
@@ -252,16 +253,16 @@ $(function () {
 
   //スコアカードがスワイプあるいはタップされたとき→1枚めくる
   let swipped;
-  $("#score1, #score2").on("swipeup swipedown click", function(e) {
+  $("#score1, #score2").on("swiperight swipeleft click", function(e) {
     const player = parseInt($(this).attr("id").slice(-1));
 console.log("cardcontainer ", e.type);
-    if (e.type == "swipedown") {
+    if (e.type == "swiperight") {
       swipped = true;
-console.log("cardcontainer swipedown", player);
+console.log("cardcontainer swiperight", player);
       cardFlipDown(player);
-    } else if (e.type == "swipeup") {
+    } else if (e.type == "swipeleft") {
       swipped = true;
-console.log("cardcontainer swipeup", player);
+console.log("cardcontainer swipeleft", player);
       cardFlipUp(player);
     } else {
       if (swipped) { // ignore this tap
