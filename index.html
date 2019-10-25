@@ -251,6 +251,7 @@ $(function () {
     setting.on("transitionend",  () => {
       if (!windowflag) {
         mainwin.removeClass("fliphoriz90");
+        setting.off("transitionend");
       }
     });
   });
@@ -263,6 +264,7 @@ $(function () {
     mainwin.on("transitionend",  () => {
       if (windowflag) {
         setting.addClass("fliphoriz0");
+        mainwin.off("transitionend");
       }
     });
   });
