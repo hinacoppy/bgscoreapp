@@ -31,16 +31,16 @@ body{
 }
 /* Grid Layout settings ------------------------------------- */
 /* 以下すべて相対サイズにし、レスポンシブ対応可能にしておく */
-#container{
+#mainwindow{
   display:grid; /* Grid Layout でコンテンツを配置 */
   grid-template-columns:40% 20% 40%;
   grid-template-areas:
-     'nav    nav          nav'
      'score1 matchinfo    score2'
      'score1 crawfordinfo score2'
-     'score1 settings     score2';
+     'score1 settingbtn   score2';
   align-items:center; /* 子アイテムはデフォで上下左右に中央揃え */
   justify-items:center;
+  padding:1vh 1vw;
 }
 #score1{
   grid-area:score1;
@@ -54,10 +54,9 @@ body{
 #crawfordinfo{
   grid-area:crawfordinfo;
 }
-#settings{
-  grid-area:settings;
+#settingbtn{
+  grid-area:settingbtn;
 }
-
 /* Contents decorations ------------------------------------- */
 #matchinfo {
   width:18vw;
@@ -66,7 +65,7 @@ body{
   text-align:center;
   font-size:10vw;
   border-radius:20px;
-  background-color:#f25;
+  background-color:#fd5;
 }
 #crawfordinfo {
   margin-top:5vh;
@@ -74,12 +73,16 @@ body{
   font-size:3vw;
   text-align:center;
 }
+.oparationbtn{
+  background-color:#dbf;
+  border:3px solid #d0f;
+  border-radius:20px;
+  padding:2vh 2vw;
+  font-size:2vw;
+}
 /* Flip Card styles ------------------------------------- */
 .cardcontainer {
   position:relative;
-/*  float:left;
-  padding:20px 20px;
-  margin:20px 20px;*/
   width:38vw;
   height:90vh;
   cursor:pointer;
@@ -126,40 +129,46 @@ body{
   transition:ease-out 0.3s transform;
 }
 /* settingwindow decorations ------------------------------------- */
+.mainwin{
+  transform-style:preserve-3d;
+  transform:perspective(1000px) rotateY(0deg);
+  transition:ease-out 0.3s transform;
+}
+.setting{
+  transform-style:preserve-3d;
+  transform:perspective(1000px) rotateY(90deg);
+  transition:ease-out 0.3s transform;
+}
+.fliphoriz90 {
+  transform:perspective(1000px) rotateY(-90deg);
+  transition:ease-out 0.3s transform;
+}
+.fliphoriz0 {
+  transform:perspective(1000px) rotateY(0deg);
+  transition:ease-out 0.3s transform;
+}
 #settingwindow{
   position:absolute;
-  display:none;
-  z-index:5;
-  border-radius:10px;
+  top:0;
+  left:0;
+  width:96vw;
+  font-size:2vw;
+  background-color:#fdf;
+  text-align:center;
+  margin:2vh 2vw;
 }
-#settingwindow input,select{
+#settingwindow select{
   font-size:100%;
-}
-.popupwindow{
-  background-color:#dff;
-  border:3px solid #00f;
-  padding:2vh 4vw;
-  font-size:1.8vw;
-}
-.popuptitle{
-  font-size:2.2vw;
-  color:#fff;
-  background-color:#46f;
-  padding:2vh 2vw;
-  margin-bottom:2vh;
-}
-.oparationbtn{
-  background-color:#dff;
-  border:3px solid #d0f;
-  border-radius:20px;
-  padding:10px 20px;
-  font-size:1.8vw;
+  background-color:transparent;
+  padding:0;
+  margin:0;
+  appearance:none;
 }
 </style>
 </head>
 
 <body>
-<article id="container">
+<article id="mainwindow" class="mainwin">
 <div id="score1">
 <div class="cardcontainer">
 <div id="score1curr" class="card curr">0</div>
@@ -174,12 +183,13 @@ body{
 
 <div id="matchinfo">5</div>
 <div id="crawfordinfo"></div>
-<div id="settings" class="oparationbtn">SETTINGS</div>
+<div id="settingbtn" class="oparationbtn">SETTINGS</div>
 </article>
 
 <!-- 設定画面 -->
-<aside id="settingwindow" class="popupwindow">
-<div class="popuptitle">### Backgammon Score board App Settings ###</div>
+<aside id="settingwindow" class="setting">
+<h2>### Backgammon Score board App Settings ###</h2>
+<p>
 Match length:
 <select id="matchlength" name="matchlength">
 <option value="0">0</option>
@@ -199,24 +209,17 @@ Match length:
 <option value="25">25</option>
 </select>
 (0 = Unlimited)
+</p>
 
 <br><br><br><br>
-<span id="applybtn" class="oparationbtn">APPLY</span> &emsp;&emsp;
+<div>
+<span id="applybtn" class="oparationbtn">APPLY</span> &emsp;&emsp;&emsp;&emsp;
 <span id="cancelbtn" class="oparationbtn">CANCEL</span>
+</div>
+<br><br><br><br>
 </aside>
 
-<!--
-<nav id="nav">
-<button id="score1up">SCORE 1 UP</button>
-<button id="score1dn">SCORE 1 DN</button>
-<button id="score2up">SCORE 2 UP</button>
-<button id="score2dn">SCORE 2 DN</button>
-</nav>
--->
-
 <script src="js/jquery-3.4.1.min.js"></script>
-<!-- script src="js/swipeupdown.js"></script -->
-<!-- script src="js/jquerymobile-swipeupdown.js"></script -->
 <script src="js/jquery.mobile-events.min.js"></script>
 <script>
 // Backgammon Score board App
@@ -225,122 +228,108 @@ Match length:
 "use strict";
 
 var score = [0, 0, 0];
+var matchlen = 5;
 var maxscore = 5;
 var crawford = 0;
 var cfplayer = 0;
-var matchlength = 5;
-var settingwindowflg = false; //true＝設定画面、false＝スコアカード画面
+const mainwin = $("#mainwindow");
+const setting = $("#settingwindow");
 
 $(function () {
 
   //設定画面の[APPLY] ボタンがクリックされたとき
-  $("#applybtn").on("click", function(e) {
-    settingwindowflg = false;
+  $("#applybtn").on("click", () => {
     reset_score();
-    $("#settingwindow").slideUp("normal");
+    $("#cancelbtn").trigger("click");
   });
 
   //設定画面の[CANCEL] ボタンがクリックされたとき
-  $("#cancelbtn").on("click", function(e) {
-    settingwindowflg = false;
-    $("#settingwindow").slideUp("normal"); //設定画面を消す
+  let windowflag = false; //true＝設定画面、false＝スコアカード画面
+  $("#cancelbtn").on("click", () => {
+    windowflag = false;
+    setting.removeClass("fliphoriz0");
+    setting.on("transitionend",  () => {
+      if (!windowflag) {
+        mainwin.removeClass("fliphoriz90");
+      }
+    });
   });
 
   //メイン画面の[SETTING] ボタンがクリックされたとき
-  $("#settings").on("click", function(e) {
-    if (settingwindowflg) { return; } //設定画面が開いているときは何もしない
-    settingwindowflg = true;
-    const topleft = winposition( $("#settingwindow") );
-    $("#settingwindow").css(topleft).slideDown("normal"); //画面表示
+  $("#settingbtn").on("click", () => {
+    windowflag = true;
+    $(".next").hide(); //画面をめくるときに残像が見えないように
+    mainwin.addClass("fliphoriz90");
+    mainwin.on("transitionend",  () => {
+      if (windowflag) {
+        setting.addClass("fliphoriz0");
+      }
+    });
   });
 
   //スコアカードがスワイプあるいはタップされたとき→1枚めくる
-  let swipped;
-  $("#score1, #score2").on("swiperight swipeleft click", function(e) {
-    const player = parseInt($(this).attr("id").slice(-1));
-console.log("cardcontainer ", e.type);
-    if (e.type == "swipeleft") {
-      swipped = true;
-console.log("cardcontainer swipeleft", player);
-      cardFlipDown(player);
-    } else if (e.type == "swiperight") {
-      swipped = true;
-console.log("cardcontainer swiperight", player);
+  $("#score1, #score2").on("swiperight swipeleft tap", (e) => {
+    const player = parseInt($(e.currentTarget).attr("id").slice(-1));
+    $(".next").show(); //settingbtn onclickで隠したものを元に戻す
+    if (e.type == "swiperight" || e.type == "tap") {
       cardFlipUp(player);
-    } else {
-      if (swipped) { // ignore this tap
-        swipped = false;
-      } else {
-console.log("cardcontainer tap", player);
-        cardFlipUp(player);
-      }
+    } else if (e.type == "swipeleft") {
+      cardFlipDown(player);
     }
-  });
-
-
-  $("#score1up").on("click", function(e) {
-    console.log("score1up click");
-    cardFlipUp(1);
-  });
-  $("#score1dn").on("click", function(e) {
-    console.log("score1dn click");
-    cardFlipDown(1);
-  });
-  $("#score2up").on("click", function(e) {
-    console.log("score2up click");
-    cardFlipUp(2);
-  });
-  $("#score2dn").on("click", function(e) {
-    console.log("score2dn click");
-    cardFlipDown(2);
   });
 
 });
 
 //カードをめくる(大きくなる方向に)
 function cardFlipUp(player) {
-    const cardcurr = $("#score" + player + "curr");
-    const cardnext = $("#score" + player + "next");
+  const cardcurr = $("#score" + player + "curr");
+  const cardnext = $("#score" + player + "next");
 
-    const scrcurr = score[player];
-    const scrnext = nextscore(scrcurr, +1);
-    score[player] = scrnext;
+  const scrcurr = score[player];
+  const scrnext = nextscore(scrcurr, +1);
+  score[player] = scrnext;
 
-    if (scrcurr == scrnext) { return; }
+  if (scrcurr == scrnext) { return; }
 
-    cardnext.text(scrnext).addClass("next");
-    cardcurr.addClass("flipup90");
-    setTimeout(function(){
-        cardnext.addClass("flipup0");
-    } , 300);
-    setTimeout(function(){
-        cardcurr.text(scrnext).removeClass("flipup90");
-        cardnext.removeClass("flipup0 next");
-        check_crawford(player);
-    } , 1000);
+  cardnext.text(scrnext).addClass("next");
+  cardcurr.addClass("flipup90");
+
+  cardcurr.on("transitionend",  () => {
+    cardnext.addClass("flipup0");
+    cardcurr.off("transitionend");
+  });
+  cardnext.on("transitionend",  function(e){
+    cardcurr.text(scrnext).removeClass("flipup90");
+    cardnext.text("").removeClass("flipup0 next");
+    check_crawford(player);
+    cardnext.off("transitionend");
+  });
 }
 
 //カードをめくる(小さくなる方向に)
 function cardFlipDown(player) {
-    const cardcurr = $("#score" + player + "curr");
-    const cardprev = $("#score" + player + "next");
+  const cardcurr = $("#score" + player + "curr");
+  const cardprev = $("#score" + player + "next");
 
-    const scrcurr = score[player];
-    const scrnext = nextscore(scrcurr, -1);
-    score[player] = scrnext;
+  const scrcurr = score[player];
+  const scrprev = nextscore(scrcurr, -1);
+  score[player] = scrprev;
 
-    if (scrcurr == scrnext) { return; }
+  if (scrcurr == scrprev) { return; }
 
-    cardprev.text(scrnext).addClass("prev");
-    cardcurr.addClass("flipdn90");
-    setTimeout(function(){
-        cardprev.addClass("flipdn0");
-    } , 300);
-    setTimeout(function(){
-        cardcurr.text(scrnext).removeClass("flipdn90");
-        cardprev.removeClass("flipdn0 prev");
-        check_crawford(player);
-    } , 1000);
+  cardprev.text(scrprev).addClass("prev");
+  cardcurr.addClass("flipdn90");
+
+  cardcurr.on("transitionend", () => {
+    cardprev.addClass("flipdn0");
+    cardcurr.off("transitionend");
+  });
+  cardprev.on("transitionend", () => {
+    cardcurr.text(scrprev).removeClass("flipdn90");
+    cardprev.text("").removeClass("flipdn0 prev");
+    check_crawford(player);
+    cardprev.off("transitionend");
+  });
 }
 
 //次カードのスコアを計算
@@ -354,24 +343,14 @@ function nextscore(sc, delta) {
 //Crawfordかどうかを判断
 function check_crawford(player) {
   let cfstr;
-  if (matchlength - score[player] == 1 && crawford == 0) {
+  if (matchlen - score[player] == 1 && crawford == 0) {
     crawford = 1; cfplayer = player; cfstr = "Crawford";
   } else if (crawford == 2 || (crawford == 1 && cfplayer != player)) {
     crawford = 2; cfplayer = 0;      cfstr = "Post Crawford";
   } else {
     crawford = 0; cfplayer = 0;      cfstr = "";
   }
-
   $("#crawfordinfo").text(cfstr);
-}
-
-//画面中央に表示するための左上座標を計算
-function winposition(winobj) {
-  let wx = $(document).scrollLeft() + ($(window).width() - winobj.outerWidth()) / 2;
-  if (wx < 0) { wx = 0; }
-  let wy = $(document).scrollTop() + ($(window).height() - winobj.outerHeight()) / 2;
-  if (wy < 0) { wy = 0; }
-  return {top:wy, left:wx};
 }
 
 //設定画面でapplyした際に初期設定に戻す
@@ -379,9 +358,9 @@ function reset_score() {
   score = [0, 0, 0];
   crawford = 0;
   cfplayer = 0;
-  matchlength = $("#matchlength").val();
-  maxscore = (matchlength == 0) ? 99 : matchlength;
-  const matchinfostr = (matchlength == 0) ? "$" : matchlength;
+  matchlen = $("#matchlength").val();
+  maxscore = (matchlen == 0) ? 99 : matchlen;
+  const matchinfostr = (matchlen == 0) ? "$" : matchlen;
   $("#matchinfo").text(matchinfostr);
   $("#crawfordinfo").text("");
   $("#score1curr,#score1next").text(score[1]);
