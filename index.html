@@ -65,7 +65,7 @@ body{
   text-align:center;
   font-size:10vw;
   border-radius:20px;
-  background-color:#fd5;
+  background-color:#dfa;
 }
 #crawfordinfo {
   margin-top:5vh;
@@ -74,8 +74,9 @@ body{
   text-align:center;
 }
 .oparationbtn{
-  background-color:#dbf;
-  border:3px solid #d0f;
+  background-color:#adf;
+  border:3px solid #29f;
+  color:#29f;
   border-radius:20px;
   padding:2vh 2vw;
   font-size:2vw;
@@ -98,53 +99,53 @@ body{
   border-radius:20px;
   text-align:center;
   font-size:25vw;
+  background-color:#ddf;
   transform-style:preserve-3d;
 }
 .curr {
-  transform:perspective(1000px) rotateX(0deg);
-  background-color:#fe3;
+  transform:perspective(1500px) rotateX(0deg);
 }
 .next {
-  transform:perspective(1000px) rotateX(90deg);
-  background-color:#3fb;
+  transform:perspective(1500px) rotateX(90deg);
+  display:none;
 }
 .prev {
-  transform:perspective(1000px) rotateX(-90deg);
-  background-color:#b3f;
+  transform:perspective(1500px) rotateX(-90deg);
 }
 .flipup90 {
-  transform:perspective(1000px) rotateX(-90deg);
+  transform:perspective(1500px) rotateX(-90deg);
   transition:ease-out 0.3s transform;
 }
 .flipdn90 {
-  transform:perspective(1000px) rotateX(90deg);
+  transform:perspective(1500px) rotateX(90deg);
   transition:ease-out 0.3s transform;
 }
 .flipdn0 {
-  transform:perspective(1000px) rotateX(0deg);
+  transform:perspective(1500px) rotateX(0deg);
   transition:ease-out 0.3s transform;
 }
 .flipup0 {
-  transform:perspective(1000px) rotateX(0deg);
+  transform:perspective(1500px) rotateX(0deg);
   transition:ease-out 0.3s transform;
 }
 /* settingwindow decorations ------------------------------------- */
 .mainwin{
   transform-style:preserve-3d;
-  transform:perspective(1000px) rotateY(0deg);
+  transform:perspective(1500px) rotateY(0deg);
   transition:ease-out 0.3s transform;
 }
 .setting{
   transform-style:preserve-3d;
-  transform:perspective(1000px) rotateY(90deg);
+  transform:perspective(1500px) rotateY(90deg);
   transition:ease-out 0.3s transform;
+  display:none;
 }
 .fliphoriz90 {
-  transform:perspective(1000px) rotateY(-90deg);
+  transform:perspective(1500px) rotateY(-90deg);
   transition:ease-out 0.3s transform;
 }
 .fliphoriz0 {
-  transform:perspective(1000px) rotateY(0deg);
+  transform:perspective(1500px) rotateY(0deg);
   transition:ease-out 0.3s transform;
 }
 #settingwindow{
@@ -153,7 +154,7 @@ body{
   left:0;
   width:96vw;
   font-size:2vw;
-  background-color:#fdf;
+  background-color:#dff;
   text-align:center;
   margin:2vh 2vw;
 }
@@ -211,20 +212,20 @@ Match length:
 (0 = Unlimited)
 </p>
 
-<br><br><br><br>
+<br><br>
 <div>
-<span id="applybtn" class="oparationbtn">APPLY</span> &emsp;&emsp;&emsp;&emsp;
-<span id="cancelbtn" class="oparationbtn">CANCEL</span>
+<span id="applybtn" class="oparationbtn">RESET SCORE</span> &emsp;&emsp;&emsp;&emsp;
+<span id="cancelbtn" class="oparationbtn">&emsp;CANCEL&emsp;</span>
 </div>
-<br><br><br><br>
+<br><br>
+<h2>使い方</h2>
+<p>スコアカードがめくれなくなった時には一度設定画面に切り替えてください。<br>その際は [CANCEL] ボタンで戻ってください。</p>
+<p>カードを右方向にスワイプすれば、数字を戻すことができます。</p>
 </aside>
 
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/jquery.mobile-events.min.js"></script>
 <script>
-// Backgammon Score board App
-// writen by hinacoppy 2019
-// inspired by hkitago's bgscore app
 "use strict";
 
 var score = [0, 0, 0];
@@ -247,11 +248,13 @@ $(function () {
   let windowflag = false; //true＝設定画面、false＝スコアカード画面
   $("#cancelbtn").on("click", () => {
     windowflag = false;
+    mainwin.show();
     setting.removeClass("fliphoriz0");
     setting.on("transitionend",  () => {
       if (!windowflag) {
         mainwin.removeClass("fliphoriz90");
-        setting.off("transitionend");
+        setting.off("transitionend").hide();
+        $(".card").removeClass("flipup90 flipdn90 flipup0 flipdn0"); //タップ連打でバグった時に解除する
       }
     });
   });
@@ -259,12 +262,12 @@ $(function () {
   //メイン画面の[SETTING] ボタンがクリックされたとき
   $("#settingbtn").on("click", () => {
     windowflag = true;
-    $(".next").hide(); //画面をめくるときに残像が見えないように
+    setting.show();
     mainwin.addClass("fliphoriz90");
     mainwin.on("transitionend",  () => {
       if (windowflag) {
         setting.addClass("fliphoriz0");
-        mainwin.off("transitionend");
+        mainwin.off("transitionend").hide();
       }
     });
   });
@@ -272,7 +275,6 @@ $(function () {
   //スコアカードがスワイプあるいはタップされたとき→1枚めくる
   $("#score1, #score2").on("swiperight swipeleft tap", (e) => {
     const player = parseInt($(e.currentTarget).attr("id").slice(-1));
-    $(".next").show(); //settingbtn onclickで隠したものを元に戻す
     if (e.type == "swiperight" || e.type == "tap") {
       cardFlipUp(player);
     } else if (e.type == "swipeleft") {
@@ -293,7 +295,7 @@ function cardFlipUp(player) {
 
   if (scrcurr == scrnext) { return; }
 
-  cardnext.text(scrnext).addClass("next");
+  cardnext.text(scrnext).addClass("next").show();
   cardcurr.addClass("flipup90");
 
   cardcurr.on("transitionend",  () => {
@@ -302,9 +304,8 @@ function cardFlipUp(player) {
   });
   cardnext.on("transitionend",  function(e){
     cardcurr.text(scrnext).removeClass("flipup90");
-    cardnext.text("").removeClass("flipup0 next");
+    cardnext.hide().text("").removeClass("flipup0 next").off("transitionend");
     check_crawford(player);
-    cardnext.off("transitionend");
   });
 }
 
@@ -319,7 +320,7 @@ function cardFlipDown(player) {
 
   if (scrcurr == scrprev) { return; }
 
-  cardprev.text(scrprev).addClass("prev");
+  cardprev.text(scrprev).addClass("prev").show();
   cardcurr.addClass("flipdn90");
 
   cardcurr.on("transitionend", () => {
@@ -328,9 +329,8 @@ function cardFlipDown(player) {
   });
   cardprev.on("transitionend", () => {
     cardcurr.text(scrprev).removeClass("flipdn90");
-    cardprev.text("").removeClass("flipdn0 prev");
+    cardprev.hide().text("").removeClass("flipdn0 prev").off("transitionend");
     check_crawford(player);
-    cardprev.off("transitionend");
   });
 }
 
