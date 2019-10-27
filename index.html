@@ -172,13 +172,13 @@ body{
 <div id="score1">
 <div class="cardcontainer">
 <div id="score1curr" class="card curr">0</div>
-<div id="score1next" class="card next">0</div>
+<div id="score1next" class="card next"></div>
 </div></div>
 
 <div id="score2">
 <div class="cardcontainer">
 <div id="score2curr" class="card curr">0</div>
-<div id="score2next" class="card next">0</div>
+<div id="score2next" class="card next"></div>
 </div></div>
 
 <div id="matchinfo">5</div>
@@ -218,7 +218,7 @@ Match length:
 </div>
 <br>
 <h2>使い方</h2>
-<p>Match lengthを変更し [RESET SCORE] をタップすると、スコアは 0 にリセットされます。</p>
+<p>[RESET SCORE] をタップすると、スコアは 0 にリセットされます。</p>
 <p>カードがめくれなくなった時には一度設定画面に切り替えてください。<br>その際は [CANCEL] ボタンで戻ってください。</p>
 <p>カードを左方向にスワイプすれば、数字を戻すことができます。</p>
 </aside>
@@ -249,8 +249,7 @@ $(function () {
   $("#cancelbtn").on("click", () => {
     windowflag = false;
     mainwin.show();
-    setting.removeClass("fliphoriz0");
-    setting.on("transitionend",  () => {
+    setting.removeClass("fliphoriz0").on("transitionend",  () => {
       if (!windowflag) {
         mainwin.removeClass("fliphoriz90");
         setting.off("transitionend").hide();
@@ -263,8 +262,7 @@ $(function () {
   $("#settingbtn").on("click", () => {
     windowflag = true;
     setting.show();
-    mainwin.addClass("fliphoriz90");
-    mainwin.on("transitionend",  () => {
+    mainwin.addClass("fliphoriz90").on("transitionend",  () => {
       if (windowflag) {
         setting.addClass("fliphoriz0");
         mainwin.off("transitionend").hide();
@@ -292,20 +290,17 @@ function cardFlipUp(player) {
   const scrcurr = score[player];
   const scrnext = nextscore(scrcurr, +1);
   score[player] = scrnext;
-console.log(score[2], scrcurr, scrnext);
+
   if (scrcurr == scrnext) { return; }
 
   cardnext.text(scrnext).addClass("next").show();
-  cardcurr.addClass("flipup90");
-
-  cardcurr.on("transitionend",  () => {
-    cardnext.addClass("flipup0");
+  cardcurr.addClass("flipup90").on("transitionend",  () => {
     cardcurr.off("transitionend");
-  });
-  cardnext.on("transitionend",  function(e){
-    cardcurr.text(scrnext).removeClass("flipup90");
-    cardnext.hide().text("").removeClass("flipup0 next").off("transitionend");
-    check_crawford(player);
+    cardnext.addClass("flipup0").on("transitionend",  function(e){
+      cardcurr.text(scrnext).removeClass("flipup90");
+      cardnext.hide().text("").removeClass("flipup0 next").off("transitionend");
+      check_crawford(player);
+    });
   });
 }
 
@@ -321,16 +316,13 @@ function cardFlipDown(player) {
   if (scrcurr == scrprev) { return; }
 
   cardprev.text(scrprev).addClass("prev").show();
-  cardcurr.addClass("flipdn90");
-
-  cardcurr.on("transitionend", () => {
-    cardprev.addClass("flipdn0");
+  cardcurr.addClass("flipdn90").on("transitionend", () => {
     cardcurr.off("transitionend");
-  });
-  cardprev.on("transitionend", () => {
-    cardcurr.text(scrprev).removeClass("flipdn90");
-    cardprev.hide().text("").removeClass("flipdn0 prev").off("transitionend");
-    check_crawford(player);
+    cardprev.addClass("flipdn0").on("transitionend", () => {
+      cardcurr.text(scrprev).removeClass("flipdn90");
+      cardprev.hide().text("").removeClass("flipdn0 prev").off("transitionend");
+      check_crawford(player);
+    });
   });
 }
 
@@ -360,7 +352,7 @@ function reset_score() {
   score = [0, 0, 0];
   crawford = 0;
   cfplayer = 0;
-  matchlen = $("#matchlength").val();
+  matchlen = parseInt( $("#matchlength").val() );
   maxscore = (matchlen == 0) ? 99 : matchlen;
   const matchinfostr = (matchlen == 0) ? "$" : matchlen;
   $("#matchinfo").text(matchinfostr);
