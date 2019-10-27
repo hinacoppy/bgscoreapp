@@ -292,7 +292,7 @@ function cardFlipUp(player) {
   const scrcurr = score[player];
   const scrnext = nextscore(scrcurr, +1);
   score[player] = scrnext;
-
+console.log(score[2], scrcurr, scrnext);
   if (scrcurr == scrnext) { return; }
 
   cardnext.text(scrnext).addClass("next").show();
