@@ -77,7 +77,7 @@ Match length:
 
 var score = [0, 0, 0];
 var matchlen = 5;
-var maxscore = 5;
+var maxscore = matchlen;
 var crawford = 0;
 var cfplayer = 0;
 const mainwin = $("#mainwindow");
@@ -138,7 +138,7 @@ function cardFlip(player, opt) {
   cardnext.text(scrnext).addClass(opt.transform_n).show();
   cardcurr.addClass(opt.transition_c).on("transitionend",  () => {
     cardcurr.off("transitionend");
-    cardnext.addClass(opt.transition_n).on("transitionend",  function(e){
+    cardnext.addClass(opt.transition_n).on("transitionend",  () => {
       cardcurr.text(scrnext).removeClass(opt.transition_c);
       cardnext.hide().removeClass(opt.transform_n).removeClass(opt.transition_n).off("transitionend");
       check_crawford(player);
@@ -174,8 +174,8 @@ function reset_score() {
   cfplayer = 0;
   matchlen = parseInt( $("#matchlength").val() );
   maxscore = (matchlen == 0) ? 99 : matchlen;
-  const matchinfostr = (matchlen == 0) ? "$" : matchlen;
-  $("#matchinfo").text(matchinfostr);
+  const matchinfo = (matchlen == 0) ? "$" : matchlen;
+  $("#matchinfo").text(matchinfo);
   $("#crawfordinfo").text("");
   $("#score1curr,#score1next").text(score[1]);
   $("#score2curr,#score2next").text(score[2]);
