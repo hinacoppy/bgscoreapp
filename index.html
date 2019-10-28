@@ -85,35 +85,28 @@ const setting = $("#settingwindow");
 
 $(function () {
 
-  //設定画面の[APPLY] ボタンがクリックされたとき
+  //設定画面の[RESET SCORE]ボタンがクリックされたとき
   $("#applybtn").on("click", () => {
     reset_score();
     $("#cancelbtn").trigger("click");
   });
 
-  //設定画面の[CANCEL] ボタンがクリックされたとき
-  let windowflag = false; //true＝設定画面、false＝スコアカード画面
+  //設定画面の[CANCEL]ボタンがクリックされたとき
   $("#cancelbtn").on("click", () => {
-    windowflag = false;
     mainwin.show();
+    $(".card").removeClass("flipup90 flipdn90 flipup0 flipdn0"); //タップ連打でバグった時に解除する
     setting.removeClass("fliphoriz0").on("transitionend",  () => {
-      if (!windowflag) {
-        mainwin.removeClass("fliphoriz90");
-        setting.off("transitionend").hide();
-        $(".card").removeClass("flipup90 flipdn90 flipup0 flipdn0"); //タップ連打でバグった時に解除する
-      }
+      mainwin.removeClass("fliphoriz90");
+      setting.off("transitionend").hide();
     });
   });
 
-  //メイン画面の[SETTING] ボタンがクリックされたとき
+  //メイン画面の[SETTINGS]ボタンがクリックされたとき
   $("#settingbtn").on("click", () => {
-    windowflag = true;
     setting.show();
     mainwin.addClass("fliphoriz90").on("transitionend",  () => {
-      if (windowflag) {
-        setting.addClass("fliphoriz0");
-        mainwin.off("transitionend").hide();
-      }
+      setting.addClass("fliphoriz0");
+      mainwin.off("transitionend").hide();
     });
   });
 
@@ -121,53 +114,33 @@ $(function () {
   $("#score1, #score2").on("swiperight swipeleft tap", (e) => {
     const player = parseInt($(e.currentTarget).attr("id").slice(-1));
     if (e.type == "swiperight" || e.type == "tap") {
-      cardFlipUp(player);
+      const opt = {delta: +1, transform_n: "next", transition_c: "flipup90", transition_n: "flipup0"};
+      cardFlip(player, opt);
     } else if (e.type == "swipeleft") {
-      cardFlipDown(player);
+      const opt = {delta: -1, transform_n: "prev", transition_c: "flipdn90", transition_n: "flipdn0"};
+      cardFlip(player, opt);
     }
   });
 
 });
 
-//カードをめくる(大きくなる方向に)
-function cardFlipUp(player) {
+//カードをめくる
+function cardFlip(player, opt) {
   const cardcurr = $("#score" + player + "curr");
   const cardnext = $("#score" + player + "next");
 
   const scrcurr = score[player];
-  const scrnext = nextscore(scrcurr, +1);
+  const scrnext = nextscore(scrcurr, opt.delta);
   score[player] = scrnext;
 
   if (scrcurr == scrnext) { return; }
 
-  cardnext.text(scrnext).addClass("next").show();
-  cardcurr.addClass("flipup90").on("transitionend",  () => {
+  cardnext.text(scrnext).addClass(opt.transform_n).show();
+  cardcurr.addClass(opt.transition_c).on("transitionend",  () => {
     cardcurr.off("transitionend");
-    cardnext.addClass("flipup0").on("transitionend",  function(e){
-      cardcurr.text(scrnext).removeClass("flipup90");
-      cardnext.hide().text("").removeClass("flipup0 next").off("transitionend");
-      check_crawford(player);
-    });
-  });
-}
-
-//カードをめくる(小さくなる方向に)
-function cardFlipDown(player) {
-  const cardcurr = $("#score" + player + "curr");
-  const cardprev = $("#score" + player + "next");
-
-  const scrcurr = score[player];
-  const scrprev = nextscore(scrcurr, -1);
-  score[player] = scrprev;
-
-  if (scrcurr == scrprev) { return; }
-
-  cardprev.text(scrprev).addClass("prev").show();
-  cardcurr.addClass("flipdn90").on("transitionend", () => {
-    cardcurr.off("transitionend");
-    cardprev.addClass("flipdn0").on("transitionend", () => {
-      cardcurr.text(scrprev).removeClass("flipdn90");
-      cardprev.hide().text("").removeClass("flipdn0 prev").off("transitionend");
+    cardnext.addClass(opt.transition_n).on("transitionend",  function(e){
+      cardcurr.text(scrnext).removeClass(opt.transition_c);
+      cardnext.hide().removeClass(opt.transform_n).removeClass(opt.transition_n).off("transitionend");
       check_crawford(player);
     });
   });
@@ -187,11 +160,11 @@ function check_crawford(player) {
   if (matchlen - score[player] == 1 && crawford == 0) {
     crawford = 1; cfplayer = player; cfstr = "Crawford";
   } else if (crawford == 2 || (crawford == 1 && cfplayer != player)) {
-    crawford = 2; cfplayer = 0;      cfstr = "Post Crawford";
+    crawford = 2; cfplayer = 0;      cfstr = "Post<br>Crawford";
   } else {
     crawford = 0; cfplayer = 0;      cfstr = "";
   }
-  $("#crawfordinfo").text(cfstr);
+  $("#crawfordinfo").html(cfstr);
 }
 
 //設定画面でapplyした際に初期設定に戻す
