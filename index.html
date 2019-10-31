@@ -115,17 +115,17 @@ $(function () {
     const player = parseInt($(e.currentTarget).attr("id").slice(-1));
     if (e.type == "swiperight" || e.type == "tap") {
       const opt = {delta: +1, transform_n: "next", transition_c: "flipup90", transition_n: "flipup0"};
-      cardFlip(player, opt);
+      flipCard(player, opt);
     } else if (e.type == "swipeleft") {
       const opt = {delta: -1, transform_n: "prev", transition_c: "flipdn90", transition_n: "flipdn0"};
-      cardFlip(player, opt);
+      flipCard(player, opt);
     }
   });
 
 });
 
 //カードをめくる
-function cardFlip(player, opt) {
+function flipCard(player, opt) {
   const cardcurr = $("#score" + player + "curr");
   const cardnext = $("#score" + player + "next");
 
@@ -135,12 +135,12 @@ function cardFlip(player, opt) {
 
   if (scrcurr == scrnext) { return; }
 
-  cardnext.text(scrnext).addClass(opt.transform_n).show();
+  cardnext.text(scrnext).show().addClass(opt.transform_n);
   cardcurr.addClass(opt.transition_c).on("transitionend",  () => {
     cardcurr.off("transitionend");
     cardnext.addClass(opt.transition_n).on("transitionend",  () => {
+      cardnext.off("transitionend").hide().removeClass(opt.transition_n).removeClass(opt.transform_n);
       cardcurr.text(scrnext).removeClass(opt.transition_c);
-      cardnext.hide().removeClass(opt.transform_n).removeClass(opt.transition_n).off("transitionend");
       check_crawford(player);
     });
   });
