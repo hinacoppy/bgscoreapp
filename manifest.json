@@ -3,7 +3,7 @@
   "short_name": "bgscore",
   "start_url": "/bgscoreapp/index.html",
   "scope": "/bgscoreapp/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#fff",
   "theme_color": "#fff",
   "description": "バックギャモンスコアボードアプリ",
