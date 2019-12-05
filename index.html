@@ -8,9 +8,10 @@
   <meta name="description" content="Backgammon Score board App">
   <meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App">
   <meta name="author" content="(C)hinacoppy 2019">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/bgscore.css">
-  <link rel="icon" href="./favicon.ico">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="icon" href="icon/favicon.ico">
+  <link rel="apple-touch-icon" href="icon/apple-touch-icon.png">
   <title>bgscore</title>
 </head>
 
@@ -179,6 +180,15 @@ function reset_score() {
   $("#crawfordinfo").text("");
   $("#score1curr,#score1next").text(score[1]);
   $("#score2curr,#score2next").text(score[2]);
+}
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register("./serviceWorker.js")
+    .then(function(registration) {
+      registration.update();
+    }).catch(function(error) {
+      console.warn("serviceWorker error.", error);
+    });
 }
 </script>
 </body>
