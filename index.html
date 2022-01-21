@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-  <meta name="description" content="Backgammon Score board App">
-  <meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App">
-  <meta name="author" content="(C)hinacoppy 2019">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/bgscore.css">
-  <link rel="icon" href="icon/favicon.ico">
-  <link rel="apple-touch-icon" href="icon/apple-touch-icon.png">
-  <title>bgscore</title>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="description" content="Backgammon Score board App">
+<meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App">
+<meta name="author" content="(C)hinacoppy 2019 - 2022">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/bgscore.css">
+<link rel="icon" href="icon/favicon.ico">
+<link rel="apple-touch-icon" href="icon/apple-touch-icon.png">
+<title>bgscore</title>
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 <p>
 Match length:
 <select id="matchlength" name="matchlength">
-<option value="0">0</option>
+<option value="9999">$</option>
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -56,7 +56,7 @@ Match length:
 <option value="23">23</option>
 <option value="25">25</option>
 </select>
-(0 = Unlimited)
+($ = Unlimited)
 </p>
 
 <br><br>
@@ -73,7 +73,10 @@ Match length:
 
 <script src="/js/jquery-3.6.0.min.js"></script>
 <script src="/js/jquery.mobile-events.min.js"></script>
-<script src="js/bgscoreapp.js"></script>
+<script src="js/bgscoreapp_class.js"></script>
+<script>
+  var bgscoreapp = new BgScoreApp();
+</script>
 <script src="/js/start-serviceWorker.js"></script>
 </body>
 </html>
