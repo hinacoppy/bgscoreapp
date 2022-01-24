@@ -12,7 +12,7 @@
 全画面表示アプリにする手順で全画面アプリにしてから使ってください。
 
 ### ◇作った人
-Copyright(C) 2018 - 2021 hinacoppy
+Copyright(C) 2019 - 2022 hinacoppy
 
 ### ◇ライセンス
 hinacoppy が作成・修正したコードは MIT License とします。<br>
