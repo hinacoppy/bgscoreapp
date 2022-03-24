@@ -6,6 +6,7 @@ class BgScoreApp {
     this.resetScore();
     this.setDomNames();
     this.setEventHandler();
+    this.settingVars = {}; //設定内容を保持するオブジェクト
   }
 
   setDomNames() {
@@ -13,7 +14,7 @@ class BgScoreApp {
     this.setting = $("#settingwindow");
     this.applybtn = $("#applybtn");
     this.cancelbtn = $("#cancelbtn");
-    this.settingbtn = $("#settingbtn");
+    this.settingbtn = $("#settingbtn, #matchinfo"); //ポイント表示部分も設定ボタンとして機能させる
     this.scorecard = $("#score1, #score2");
     this.cardall = $(".card");
   }
@@ -22,6 +23,7 @@ class BgScoreApp {
     //設定画面の[RESET SCORE]ボタンがクリックされたとき
     this.applybtn.on("click", () => {
       this.resetScore();
+      this.saveSettingVars(); //変更後の値を有効にする
       this.cancelbtn.trigger("click");
     });
 
@@ -32,6 +34,7 @@ class BgScoreApp {
       this.setting.removeClass("fliphoriz0").on("transitionend",  () => {
         this.mainwin.removeClass("fliphoriz90");
         this.setting.off("transitionend").hide();
+        this.loadSettingVars(); //transitionが終わってから書き戻す
       });
     });
 
@@ -41,6 +44,7 @@ class BgScoreApp {
       this.mainwin.addClass("fliphoriz90").on("transitionend",  () => {
         this.setting.addClass("fliphoriz0");
         this.mainwin.off("transitionend").hide();
+        this.saveSettingVars(); //元の値を覚えておく
       });
     });
 
@@ -118,6 +122,14 @@ class BgScoreApp {
     $("#crawfordinfo").text("");
     $("#score1curr,#score1next").text(this.score[1]);
     $("#score2curr,#score2next").text(this.score[2]);
+  }
+
+  saveSettingVars() {
+    this.settingVars.matchlen = $("#matchlength").val();
+  }
+
+  loadSettingVars() {
+    $("#matchlength").val(this.settingVars.matchlen);
   }
 
 }
