@@ -69,7 +69,7 @@ class FlipCard {
   //次カードのスコアを計算
   calcNextScore(sc, delta) {
     let nx = sc + delta;
-    if (nx > this.matchlen) { nx = this.matchlen; }
+    if (this.matchlen != 0 && nx > this.matchlen) { nx = this.matchlen; }
     if (nx < 0) { nx = 0; }
     return nx;
   }
@@ -77,7 +77,9 @@ class FlipCard {
   //Crawfordかどうかを判断
   checkCrawford(player) {
     let cfstr;
-    if (this.score[1] == this.matchlen || this.score[2] == this.matchlen) {
+    if (this.matchlen == 0) {
+      cfstr = "";
+    } else if (this.score[1] == this.matchlen || this.score[2] == this.matchlen) {
       cfstr = "MATCH";
     } else if (this.score[1] == this.score[2] && this.matchlen - this.score[player] == 1) {
       cfstr = "DMP";
@@ -105,6 +107,7 @@ class FlipCard {
     $("#crawfordinfo").text("");
     $("#score1curr,#score1next").text(this.score[1]);
     $("#score2curr,#score2next").text(this.score[2]);
+    this.checkCrawford(0); //1ptマッチの時DMPと表示させる
   }
 
 }
