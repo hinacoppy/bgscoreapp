@@ -1,5 +1,5 @@
 /* bgscore.css ---------------------------------------------- */
-/* designed by (C)hinacoppy 2019                              */
+/* designed by (C)hinacoppy 2019 -- 2022                      */
 
 /* document outline ----------------------------------------- */
 *{
@@ -23,6 +23,7 @@ body{
 #mainwindow{
   display:grid; /* Grid Layout でコンテンツを配置 */
   grid-template-columns:40% 20% 40%;
+  grid-template-rows:40vh 40vh 15vh; /* ボタン下に隙間を空けるため、敢えて100vhにしない */
   grid-template-areas:
      'score1 matchinfo    score2'
      'score1 crawfordinfo score2'
@@ -74,17 +75,14 @@ body{
 .cardcontainer {
   position:relative;
   width:38vw;
-  height:90vh;
-  border-radius:20px;
+  height:96vh;
 }
 .card {
   position:absolute;
-  top:0;
-  left:0;
   width:38vw;
-  height:90vh;
-  line-height:90vh;
-  border-radius:20px;
+  height:96vh;
+  line-height:96vh;
+  border-radius:30px;
   text-align:center;
   font-size:25vw;
   background-color:#ddf;
@@ -138,19 +136,22 @@ body{
 }
 #settingwindow{
   position:absolute;
-  top:0;
-  left:0;
-  width:96vw;
   font-size:2vw;
   background-color:#dff;
+  border:3px solid #00f;
   text-align:center;
-  margin:2vh 2vw;
+  padding:2vh 2vw;
 }
 #settingwindow select{
-  font-size:2.5vw;
-  /*background-color:transparent;*/
+  font-size:100%;
   padding:0 0.3vw;
   margin:0 1vw;
   text-align:center;
   /*appearance:none;*/
+}
+.settingtitle{
+  font-size:2.2vw;
+  padding:2vh 2vw;
+  color:#fff;
+  background-color:#29f;
 }

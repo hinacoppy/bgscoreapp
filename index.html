@@ -17,17 +17,13 @@
 
 <body>
 <article id="mainwindow" class="mainwin">
-<div id="score1">
-<div class="cardcontainer">
+<div id="score1" class="cardcontainer">
 <div id="score1curr" class="card curr">0</div>
-<div id="score1next" class="card next"></div>
-</div></div>
+<div id="score1next" class="card next"></div></div>
 
-<div id="score2">
-<div class="cardcontainer">
+<div id="score2" class="cardcontainer">
 <div id="score2curr" class="card curr">0</div>
-<div id="score2next" class="card next"></div>
-</div></div>
+<div id="score2next" class="card next"></div></div>
 
 <div id="matchinfo">5</div>
 <div id="crawfordinfo"></div>
@@ -36,7 +32,7 @@
 
 <!-- 設定画面 -->
 <aside id="settingwindow" class="setting">
-<h2>### Backgammon Score board App Settings ###</h2>
+<div class="settingtitle">### Backgammon Score board App Settings ###</div>
 <p>
 Match length:
 <select id="matchlength" name="matchlength">
@@ -58,7 +54,6 @@ Match length:
 </select>
 ($ = Unlimited)
 </p>
-<br>
 <p>
 <button id="applybtn" class="oparationbtn">RESET SCORE</button> &emsp;&emsp;&emsp;&emsp;
 <button id="cancelbtn" class="oparationbtn">&emsp;CANCEL&emsp;</button>

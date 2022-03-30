@@ -14,6 +14,7 @@ class BgScoreApp {
     this.cancelbtn = $("#cancelbtn");
     this.settingbtn = $("#settingbtn, #matchinfo"); //ポイント表示部分も設定ボタンとして機能させる
     this.scorecard = $("#score1, #score2");
+    this.settingwindow = $("#settingwindow");
   }
 
   setEventHandler() {
@@ -31,6 +32,8 @@ class BgScoreApp {
 
     //メイン画面の[SETTINGS]ボタンがクリックされたとき
     this.settingbtn.on("click", () => {
+      const topleft = this.winposition(this.settingwindow);
+      this.settingwindow.css(topleft);
       this.flipcard.showSettingPanel();
       this.saveSettingVars(); //元の値を覚えておく
     });
@@ -47,6 +50,15 @@ class BgScoreApp {
 
   loadSettingVars() {
     $("#matchlength").val(this.settingVars.matchlen);
+  }
+
+  //画面中央に表示するための左上座標を計算
+  winposition(winobj) {
+    let wx = $(document).scrollLeft() + ($(window).width() - winobj.outerWidth()) / 2;
+    if (wx < 0) { wx = 0; }
+    let wy = $(document).scrollTop() + ($(window).height() - winobj.outerHeight()) / 2;
+    if (wy < 0) { wy = 0; }
+    return {top:wy, left:wx};
   }
 
 }
