@@ -114,7 +114,7 @@ body{
   transform:perspective(1500px) rotateX(0deg);
   transition:ease-out 0.3s transform;
 }
-/* settingwindow decorations ------------------------------------- */
+/* Setting Window Flip settings ------------------------------------- */
 .mainwin{
   transform-style:preserve-3d;
   transform:perspective(1500px) rotateY(0deg);
@@ -124,7 +124,6 @@ body{
   transform-style:preserve-3d;
   transform:perspective(1500px) rotateY(90deg);
   transition:ease-out 0.3s transform;
-  display:none;
 }
 .fliphoriz90 {
   transform:perspective(1500px) rotateY(-90deg);
@@ -134,6 +133,7 @@ body{
   transform:perspective(1500px) rotateY(0deg);
   transition:ease-out 0.3s transform;
 }
+/* Setting Window decorations ------------------------------------- */
 #settingwindow{
   position:absolute;
   font-size:2vw;
@@ -141,6 +141,7 @@ body{
   border:3px solid #00f;
   text-align:center;
   padding:2vh 2vw;
+  display:none;
 }
 #settingwindow select{
   font-size:100%;
