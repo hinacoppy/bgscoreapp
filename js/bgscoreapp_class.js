@@ -58,7 +58,8 @@ class BgScoreApp {
     const p_height = $("#mainwindow").height();
     const wx = (p_width - winobj.outerWidth(true)) / 2;
     const wy = (p_height - winobj.outerHeight(true)) / 2;
-    return {left:wx, top:wy};
+    return {left:0, top:0};
+//    return {left:wx, top:wy};
 
 /********************
 console.log("winposition", $(document).scrollLeft(), $(document).scrollTop(), $(window).width() , winobj.outerWidth(), $(window).height() , winobj.outerHeight());
