@@ -54,11 +54,21 @@ class BgScoreApp {
 
   //画面中央に表示するための左上座標を計算
   winposition(winobj) {
+    const p_width = $("#mainwindow").width();
+    const p_height = $("#mainwindow").height();
+    const wx = (p_width - winobj.outerWidth(true)) / 2;
+    const wy = (p_height - winobj.outerHeight(true)) / 2;
+    return {left:wx, top:wy};
+
+/********************
+console.log("winposition", $(document).scrollLeft(), $(document).scrollTop(), $(window).width() , winobj.outerWidth(), $(window).height() , winobj.outerHeight());
+console.log("winposition", $(document).scrollLeft(), $(document).scrollTop(), $(window).width() , winobj.width(), $(window).height() , winobj.height());
     let wx = $(document).scrollLeft() + ($(window).width() - winobj.outerWidth()) / 2;
     if (wx < 0) { wx = 0; }
     let wy = $(document).scrollTop() + ($(window).height() - winobj.outerHeight()) / 2;
     if (wy < 0) { wy = 0; }
     return {top:wy, left:wx};
+******************/
   }
 
 }
