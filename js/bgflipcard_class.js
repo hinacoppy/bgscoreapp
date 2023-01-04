@@ -101,13 +101,17 @@ class FlipCard {
     this.score = [0, 0, 0];
     this.crawford = 0;
     this.cfplayer = 0;
-    this.matchlen = parseInt( $("#matchlength").val() );
-    const matchinfo = $("#matchlength option:selected").text();
-    $("#matchinfo").text(matchinfo);
+    this.showMatchInfo();
     $("#crawfordinfo").text("");
     $("#score1curr,#score1next").text(this.score[1]);
     $("#score2curr,#score2next").text(this.score[2]);
     this.checkCrawford(0); //1ptマッチの時DMPと表示させる
+  }
+
+  showMatchInfo() {
+    this.matchlen = parseInt( $("#matchlength").val() );
+    const matchinfo = $("#matchlength option:selected").text();
+    $("#matchinfo").text(matchinfo);
   }
 
 }
