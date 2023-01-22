@@ -19,6 +19,10 @@ body{
   height:-webkit-fill-available;
   background-color:#efe;
   font-family:'Arial', 'Meiryo UI';
+  /* 子要素を水平・垂直方向の中央揃え */
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 /* Grid Layout settings ------------------------------------- */
 /* 以下すべて相対サイズにし、レスポンシブ対応可能にしておく */
@@ -32,7 +36,6 @@ body{
      'score1 settingbtn   score2';
   align-items:center; /* 子アイテムはデフォで上下左右に中央揃え */
   justify-items:center;
-  padding:1vh 1vw;
 }
 #score1{
   grid-area:score1;
@@ -75,9 +78,11 @@ body{
 }
 /* Flip Card styles ------------------------------------- */
 .cardcontainer {
-  position:relative;
   width:38vw;
   height:96vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .card {
   position:absolute;

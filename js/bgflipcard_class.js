@@ -66,6 +66,36 @@ class FlipCard {
     });
   }
 
+  //カードをめくる
+  ZZZZflipCard(player, opt) {
+    const cardcurr = document.querySelector("#score" + player + "curr");
+    const cardnext = document.querySelector("#score" + player + "next");
+
+    const scrcurr = this.score[player];
+    const scrnext = this.calcNextScore(scrcurr, opt.delta);
+    this.score[player] = scrnext;
+
+    if (scrcurr == scrnext) { return; }
+
+    cardnext.textContent = (scrnext);
+    cardnext.style.display = "";
+    cardnext.classList.add(opt.transform_n);
+    cardcurr.classList.add(opt.transition_c);
+    cardcurr.addEventListener("transitionend",  () => {
+//      cardcurr.off("transitionend");
+      cardnext.classList.add(opt.transition_n);
+      cardnext.addEventListener("transitionend",  () => {
+//        cardnext.off("transitionend").hide().removeClass(opt.transition_n).removeClass(opt.transform_n);
+        cardnext.style.display = "none";
+        cardnext.classList.remove(opt.transition_n);
+        cardnext.classList.remove(opt.transform_n);
+        cardcurr.textContent = (scrnext);
+        cardcurr.classList.remove(opt.transition_c);
+        this.checkCrawford(player);
+      });
+    });
+  }
+
   //次カードのスコアを計算
   calcNextScore(sc, delta) {
     let nx = sc + delta;
@@ -93,7 +123,7 @@ class FlipCard {
       this.crawford = 0; this.cfplayer = 0;
       cfstr = "";
     }
-    $("#crawfordinfo").html(cfstr);
+    document.querySelector("#crawfordinfo").innerHTML = cfstr;
   }
 
   //設定画面でapplyした際に初期設定に戻す
@@ -102,16 +132,18 @@ class FlipCard {
     this.crawford = 0;
     this.cfplayer = 0;
     this.showMatchInfo();
-    $("#crawfordinfo").text("");
-    $("#score1curr,#score1next").text(this.score[1]);
-    $("#score2curr,#score2next").text(this.score[2]);
+    document.querySelector("#crawfordinfo").textContent = "";
+    document.querySelector("#score1curr").textContent = this.score[1];
+    document.querySelector("#score1next").textContent = this.score[1];
+    document.querySelector("#score2curr").textContent = this.score[2];
+    document.querySelector("#score2next").textContent = this.score[2];
     this.checkCrawford(0); //1ptマッチの時DMPと表示させる
   }
 
   showMatchInfo() {
-    this.matchlen = parseInt( $("#matchlength").val() );
-    const matchinfo = $("#matchlength option:selected").text();
-    $("#matchinfo").text(matchinfo);
+    const matchinfo = document.querySelector("#matchlength").value;
+    const matchlen = parseInt(matchinfo);
+    this.matchlen = matchlen ? matchlen : 9999; //$ -> 9999
+    document.querySelector("#matchinfo").textContent = matchinfo;
   }
-
 }

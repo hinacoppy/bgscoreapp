@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <meta name="description" content="Backgammon Score board App">
 <meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App">
-<meta name="author" content="(C)hinacoppy 2019 - 2022">
+<meta name="author" content="(C)hinacoppy 2019 - 2023">
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="css/bgscore.css">
 <link rel="icon" href="icon/favicon.ico">
@@ -36,7 +36,7 @@
 <p>
 Match length:
 <select id="matchlength" name="matchlength">
-<option value="9999">$</option>
+<option value="$">$</option>
 <option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
@@ -65,8 +65,7 @@ Match length:
 <p>カードを左方向にスワイプすれば、数字を戻すことができます。</p>
 </aside>
 
-<script src="/js/jquery-3.6.0.min.js"></script>
-<script src="/js/jquery.mobile-events.min.js"></script>
+<script src="/js/jquery-3.6.1.min.js"></script>
 <script src="js/bgflipcard_class.js"></script>
 <script src="js/bgscoreapp_class.js"></script>
 <script>
