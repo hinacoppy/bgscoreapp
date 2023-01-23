@@ -2,7 +2,7 @@
 // (参考) https://qiita.com/kaihar4/items/c09a6d73e190ab0b9b01
 'use strict';
 
-const CACHE_NAME = "bgscore-v20230122";
+const CACHE_NAME = "bgscore-v20230123";
 const ORIGIN = (location.hostname == 'localhost') ? '' : location.protocol + '//' + location.hostname;
 
 const STATIC_FILES = [
@@ -16,6 +16,7 @@ const STATIC_FILES = [
   ORIGIN + '/bgscoreapp/icon/android-chrome-512x512.png',
   ORIGIN + '/bgscoreapp/css/bgscore.css',
   ORIGIN + '/bgscoreapp/js/bgflipcard_class.js',
+  ORIGIN + '/bgscoreapp/js/swipetracker_class.js',
   ORIGIN + '/bgscoreapp/js/bgscoreapp_class.js',
   ORIGIN + '/js/jquery-3.6.1.min.js',
   ORIGIN + '/js/start-serviceWorker.js',

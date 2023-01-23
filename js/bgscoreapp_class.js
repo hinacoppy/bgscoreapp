@@ -42,8 +42,8 @@ class BgScoreApp {
 
   setSwipeEventHandler() {
     //swipeイベントを登録
-    this.swipeTracker(this.score1, "l"); //tapかswipeleftのみを見張る。(rudはtapとみなす)
-    this.swipeTracker(this.score2, "l");
+    new SwipeTracker(this.score1, "tl", 200); //tapかswipeleftのみを見張る。(rudはtapとみなす)
+    new SwipeTracker(this.score2, "tl", 200);
 
     //スコアカードがスワイプあるいはタップされたとき→1枚めくる
     const eventlist = ["tap", "swipeleft"];
@@ -59,62 +59,5 @@ class BgScoreApp {
 
   loadSettingVars() {
     document.querySelector("#matchlength").value = this.settingVars.matchlength;
-  }
-
-  swipeTracker(target, direction = "lrud") {
-    const thresholdX = 200; //スワイプと判断する移動量は即値で決め打ち
-    const thresholdY = 200;
-    let startX = 0;
-    let startY = 0;
-    let moveX = 0;
-    let moveY = 0;
-
-    const evfn_touchstart = ((origevt) => {
-      //イベントハンドラを登録
-      target.addEventListener("mousemove",  evfn_swiping);
-      target.addEventListener("touchmove",  evfn_swiping);
-      target.addEventListener("mouseup",    evfn_touchend);
-      target.addEventListener("mouseleave", evfn_touchend);
-      target.addEventListener("touchend",   evfn_touchend);
-      target.addEventListener("touchleave", evfn_touchend);
-
-      //マウスイベントとタッチイベントの差異を吸収
-      const ev = (origevt.type === "mousedown") ? origevt : origevt.touches[0];
-      //開始座標記録
-      startX = ev.pageX;
-      startY = ev.pageY;
-      moveX = 0;
-      moveY = 0;
-    });
-
-    const evfn_swiping = ((origevt) => {
-      //マウスイベントとタッチイベントの差異を吸収
-      const ev = (origevt.type === "mousemove") ? origevt : origevt.touches[0];
-      //タッチ開始時からの差分
-      moveX = ev.pageX - startX;
-      moveY = ev.pageY - startY;
-    });
-
-    const evfn_touchend = ((origevt) => {
-      //イベント監視を止める
-      target.removeEventListener("mousemove",  evfn_swiping);
-      target.removeEventListener("touchmove",  evfn_swiping);
-      target.removeEventListener("mouseup",    evfn_touchend);
-      target.removeEventListener("mouseleave", evfn_touchend);
-      target.removeEventListener("touchend",   evfn_touchend);
-      target.removeEventListener("touchleave", evfn_touchend);
-
-      //イベントを判断し発火させる
-      let eventtype = "tap";
-      if      (direction.includes("l") && moveX < 0 && Math.abs(moveX) >= thresholdX) { eventtype = "swipeleft"; }
-      else if (direction.includes("r") && moveX > 0 && Math.abs(moveX) >= thresholdX) { eventtype = "swiperight"; }
-      else if (direction.includes("u") && moveY < 0 && Math.abs(moveY) >= thresholdY) { eventtype = "swipeup"; }
-      else if (direction.includes("d") && moveY > 0 && Math.abs(moveY) >= thresholdY) { eventtype = "swipedown"; }
-      target.dispatchEvent(new Event(eventtype));
-    });
-
-    //スタートイベントを登録
-    target.addEventListener("mousedown",  evfn_touchstart);
-    target.addEventListener("touchstart", evfn_touchstart);
   }
 }
