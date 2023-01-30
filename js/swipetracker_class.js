@@ -55,9 +55,9 @@ class SwipeTracker {
       else if (direction.includes("r") && moveX > 0 && Math.abs(moveX) >= thresholdX) { eventtype = "swiperight"; }
       else if (direction.includes("u") && moveY < 0 && Math.abs(moveY) >= thresholdY) { eventtype = "swipeup"; }
       else if (direction.includes("d") && moveY > 0 && Math.abs(moveY) >= thresholdY) { eventtype = "swipedown"; }
-      else if (direction.includes("t"))                                               { eventtype = "tap"; }
+      else if (direction.includes("t"))                                               { eventtype = "mytap"; }
       if (eventtype) {
-        target.dispatchEvent(new Event(eventtype)); //見張っているイベントだけ発火させる
+        target.dispatchEvent(new CustomEvent(eventtype)); //見張っているイベントだけ発火させる
       }
     });
 

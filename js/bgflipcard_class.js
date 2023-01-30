@@ -34,8 +34,9 @@ class FlipCard {
 
   //イベントに対応して操作を実行
   driveEvent(evt) {
-    const player = parseInt($(evt.currentTarget).attr("id").slice(-1));
-    if (evt.type == "swiperight" || evt.type == "tap") {
+    evt.preventDefault(); //カスタムイベントなので不要だが、記述しておく
+    const player = parseInt(evt.currentTarget.id.slice(-1));
+    if (evt.type == "mytap") {
       const opt = {delta: +1, transform_n: "next", transition_c: "flipup90", transition_n: "flipup0"};
       this.flipCard(player, opt);
     } else if (evt.type == "swipeleft") {

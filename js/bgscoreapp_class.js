@@ -46,7 +46,7 @@ class BgScoreApp {
     new SwipeTracker(this.score2, "tl", 200);
 
     //スコアカードがスワイプあるいはタップされたとき→1枚めくる
-    const eventlist = ["tap", "swipeleft"];
+    const eventlist = ["mytap", "swipeleft"];
     for (const eventtype of eventlist) {
       this.score1.addEventListener(eventtype, (evt) => { this.flipcard.driveEvent(evt); });
       this.score2.addEventListener(eventtype, (evt) => { this.flipcard.driveEvent(evt); });
