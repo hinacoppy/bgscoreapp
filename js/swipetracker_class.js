@@ -16,6 +16,7 @@ class SwipeTracker {
 
     const evfn_touchstart = ((origevt) => {
       origevt.preventDefault(); //touchstartの後に発火するマウス関連イベント(mousedown)を抑止する
+BgScoreApp.addLog("evfn_touchstart preventDefault " + origevt.type );
       //イベントハンドラを登録
       target.addEventListener("mousemove",  evfn_swiping);
       target.addEventListener("touchmove",  evfn_swiping);
@@ -31,7 +32,7 @@ class SwipeTracker {
       startY = ev.pageY;
       moveX = 0;
       moveY = 0;
-BgScoreApp.addLog("evfn_touchstart " + origevt.type + " " +  " " + moveX + " " + moveY);
+BgScoreApp.addLog("evfn_touchstart " + origevt.type + " " +  " " + startX + " " + startY);
     });
 
     const evfn_swiping = ((origevt) => {
