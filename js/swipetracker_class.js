@@ -42,6 +42,7 @@ BgScoreApp.addLog("evfn_touchstart " + origevt.type + " " +  " " + moveX + " " +
     });
 
     const evfn_touchend = ((origevt) => {
+      origevt.preventDefault(); //touchendの後に発火するマウス関連イベント(mouseup,click)を抑止する
       //イベント監視を止める
       target.removeEventListener("mousemove",  evfn_swiping);
       target.removeEventListener("touchmove",  evfn_swiping);
