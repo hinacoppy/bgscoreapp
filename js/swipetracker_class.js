@@ -15,6 +15,7 @@ class SwipeTracker {
     let moveY;
 
     const evfn_touchstart = ((origevt) => {
+      origevt.preventDefault(); //touchstartの後に発火するマウス関連イベント(mousedown)を抑止する
       //イベントハンドラを登録
       target.addEventListener("mousemove",  evfn_swiping);
       target.addEventListener("touchmove",  evfn_swiping);
