@@ -44,7 +44,7 @@ class BgScoreApp {
     //swipeイベントを登録
     new SwipeTracker(this.score1, "tl", 100); //tapかswipeleftのみを見張る。(rudはtapとみなす)
     new SwipeTracker(this.score2, "tl", 100);
-
+BgScoreApp.addLog("window size "+ window.innerHeight + " " + window.innerWidth);
     //スコアカードがスワイプあるいはタップされたとき→1枚めくる
     const eventlist = ["mytap", "swipeleft"];
     for (const eventtype of eventlist) {
