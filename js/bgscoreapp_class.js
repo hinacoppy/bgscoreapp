@@ -48,6 +48,7 @@ class BgScoreApp {
     //スコアカードがスワイプあるいはタップされたとき→1枚めくる
     const eventlist = ["mytap", "swipeleft"];
     for (const eventtype of eventlist) {
+BgScoreApp.addLog("setSwipeEventHandler " + eventtype);
       this.score1.addEventListener(eventtype, (evt) => { this.flipcard.driveEvent(evt); });
       this.score2.addEventListener(eventtype, (evt) => { this.flipcard.driveEvent(evt); });
     }
@@ -59,5 +60,9 @@ class BgScoreApp {
 
   loadSettingVars() {
     document.querySelector("#matchlength").value = this.settingVars.matchlength;
+  }
+
+  static addLog(text) {
+    document.querySelector("#textarea").value += text + "\n";
   }
 }
