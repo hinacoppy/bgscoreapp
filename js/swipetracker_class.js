@@ -30,6 +30,7 @@ class SwipeTracker {
       startY = ev.pageY;
       moveX = 0;
       moveY = 0;
+BgScoreApp.addLog("evfn_touchstart " + origevt.type + " " +  " " + moveX + " " + moveY);
     });
 
     const evfn_swiping = ((origevt) => {
@@ -57,7 +58,7 @@ class SwipeTracker {
       else if (direction.includes("d") && moveY > 0 && Math.abs(moveY) >= thresholdY) { eventtype = "swipedown"; }
       else if (direction.includes("t"))                                               { eventtype = "mytap"; }
       if (eventtype) {
-BgScoreApp.addLog("evfn_touchend " + eventtype + " " + moveX + " " + moveY);
+BgScoreApp.addLog("evfn_touchend " + origevt.type + " " + eventtype + " " + moveX + " " + moveY);
         target.dispatchEvent(new CustomEvent(eventtype)); //見張っているイベントだけ発火させる
       }
     });
