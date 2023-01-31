@@ -36,12 +36,10 @@ class FlipCard {
   driveEvent(evt) {
     evt.preventDefault(); //カスタムイベントなので不要だが、記述しておく
     const player = parseInt(evt.currentTarget.id.slice(-1));
-BgScoreApp.addLog("driveEvent " + evt.type + " " + evt.currentTarget.id);
-
     if (evt.type == "mytap") {
       const opt = {delta: +1, transform_n: "next", transition_c: "flipup90", transition_n: "flipup0"};
       this.flipCard(player, opt);
-    } else if (evt.type == "swipeleft") {
+    } else if (evt.type == "swipeleft" || evt.type == "swipedown") {
       const opt = {delta: -1, transform_n: "prev", transition_c: "flipdn90", transition_n: "flipdn0"};
       this.flipCard(player, opt);
     }
