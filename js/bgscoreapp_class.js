@@ -42,13 +42,13 @@ class BgScoreApp {
 
   setSwipeEventHandler() {
     //swipeイベントを登録
-    new SwipeTracker(this.score1, "tl", 100); //tapかswipeleftのみを見張る。(rudはtapとみなす)
-    new SwipeTracker(this.score2, "tl", 100);
-BgScoreApp.addLog("window size "+ window.innerHeight + " " + window.innerWidth);
+    const thres = Math.max(window.innerHeight, window.innerWidth) / 6;
+    new SwipeTracker(this.score1, "tld", thres); //tapかswipeleft, swipedownを見張る。(ruはtapとみなす)
+    new SwipeTracker(this.score2, "tld", thres);
+
     //スコアカードがスワイプあるいはタップされたとき→1枚めくる
-    const eventlist = ["mytap", "swipeleft"];
+    const eventlist = ["mytap", "swipeleft", "swipedown"];
     for (const eventtype of eventlist) {
-BgScoreApp.addLog("setSwipeEventHandler " + eventtype + this.score1.clientWidth);
       this.score1.addEventListener(eventtype, (evt) => { this.flipcard.driveEvent(evt); });
       this.score2.addEventListener(eventtype, (evt) => { this.flipcard.driveEvent(evt); });
     }
@@ -60,9 +60,5 @@ BgScoreApp.addLog("setSwipeEventHandler " + eventtype + this.score1.clientWidth)
 
   loadSettingVars() {
     document.querySelector("#matchlength").value = this.settingVars.matchlength;
-  }
-
-  static addLog(text) {
-    document.querySelector("#textarea").value += text + "\n";
   }
 }
