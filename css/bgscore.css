@@ -55,7 +55,7 @@ body{
   grid-area:settingbtn;
 }
 /* Contents decorations ------------------------------------- */
-#matchinfo {
+#matchinfo{
   width:18vw;
   height:30vh;
   line-height:30vh;
@@ -64,7 +64,7 @@ body{
   border-radius:20px;
   background-color:#dfa;
 }
-#crawfordinfo {
+#crawfordinfo{
   margin-top:5vh;
   height:30vh;
   font-size:3vw;
@@ -79,14 +79,14 @@ body{
   font-size:2vw;
 }
 /* Flip Card styles ------------------------------------- */
-.cardcontainer {
+.cardcontainer{
   width:38vw;
   height:96vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.card {
+.card{
   position:absolute;
   width:38vw;
   height:96vh;
@@ -97,29 +97,29 @@ body{
   background-color:#ddf;
   transform-style:preserve-3d;
 }
-.curr {
+.curr{
   transform:perspective(1500px) rotateX(0deg);
 }
-.next {
+.next{
   transform:perspective(1500px) rotateX(90deg);
   display:none;
 }
-.prev {
+.prev{
   transform:perspective(1500px) rotateX(-90deg);
 }
-.flipup90 {
+.flipup90{
   transform:perspective(1500px) rotateX(-90deg);
   transition:ease-out 0.3s transform;
 }
-.flipdn90 {
+.flipdn90{
   transform:perspective(1500px) rotateX(90deg);
   transition:ease-out 0.3s transform;
 }
-.flipdn0 {
+.flipdn0{
   transform:perspective(1500px) rotateX(0deg);
   transition:ease-out 0.3s transform;
 }
-.flipup0 {
+.flipup0{
   transform:perspective(1500px) rotateX(0deg);
   transition:ease-out 0.3s transform;
 }
@@ -134,19 +134,18 @@ body{
   transform:perspective(1500px) rotateY(90deg);
   transition:ease-out 0.3s transform;
 }
-.fliphoriz90 {
+.fliphoriz90{
   transform:perspective(1500px) rotateY(-90deg);
   transition:ease-out 0.3s transform;
 }
-.fliphoriz0 {
+.fliphoriz0{
   transform:perspective(1500px) rotateY(0deg);
   transition:ease-out 0.3s transform;
 }
 /* Setting Window decorations ------------------------------------- */
 #settingwindow{
   position:absolute;
-/*  font-size:2vw;*/
-  font-size:100%;
+  font-size:2vw;
   background-color:#dff;
   border:3px solid #00f;
   text-align:center;
@@ -155,7 +154,7 @@ body{
   display:none;
 }
 #settingwindow select{
-  font-size:100%;
+  font-size:2vw;
   padding:0 0.3vw;
   margin:0 1vw;
   text-align:center;
