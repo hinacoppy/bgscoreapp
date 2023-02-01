@@ -71,20 +71,20 @@ body{
   text-align:center;
 }
 .oparationbtn{
-  background-color:#adf;
-  border:3px solid #29f;
-  color:#29f;
-  border-radius:20px;
   padding:2vh 2vw;
+  background-color:#bef;
+  border:3px solid;
+  color:#29f;
+  border-radius:4vw;
   font-size:2vw;
 }
 /* Flip Card styles ------------------------------------- */
 .cardcontainer{
   width:38vw;
   height:96vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 .card{
   position:absolute;
@@ -161,7 +161,7 @@ body{
   /*appearance:none;*/
 }
 .settingtitle{
-  font-size:2.2vw;
+  font-size:3vw;
   padding:2vh 2vw;
   color:#fff;
   background-color:#29f;
