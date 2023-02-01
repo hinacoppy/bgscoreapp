@@ -1,5 +1,5 @@
 /* bgscore.css ---------------------------------------------- */
-/* designed by (C)hinacoppy 2019 -- 2022                      */
+/* designed by (C)hinacoppy 2019 -- 2023                      */
 
 /* document outline ----------------------------------------- */
 *{
@@ -8,7 +8,7 @@
 html{
   height:100vh;
   overflow:hidden;
-  overscroll-behavior:none; /* バウンススクロールを抑止(only for Android) */
+  overscroll-behavior:none; /* バウンススクロールを抑止(only for Android and iOS>=16) */
   height:-webkit-fill-available; /* iOSで100%表示されない事態を回避 */
 }
 body{
@@ -23,6 +23,8 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  -webkit-text-size-adjust:100%; /* iPhoneで文字サイズが勝手に大きくならないように */
+  text-size-adjust:100%;
 }
 /* Grid Layout settings ------------------------------------- */
 /* 以下すべて相対サイズにし、レスポンシブ対応可能にしておく */
