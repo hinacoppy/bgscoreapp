@@ -1,37 +1,47 @@
 /* bgscore.css ---------------------------------------------- */
-/* designed by (C)hinacoppy 2019 -- 2023                      */
+/* designed by (C)hinacoppy 2019 -- 2024                      */
 
 /* document outline ----------------------------------------- */
 *{
   user-select:none;
 }
+input,select{
+  font-size:100%;
+}
 html{
-  height:100vh;
+  height:100vmin;
   overflow:hidden;
-  overscroll-behavior:none; /* バウンススクロールを抑止(only for Android and iOS>=16) */
-  height:-webkit-fill-available; /* iOSで100%表示されない事態を回避 */
+  overscroll-behavior:none; /* バウンススクロールを抑止 */
 }
 body{
   margin:0;
   padding:0;
-  min-height:100vh;
-  height:100vh;
-  height:-webkit-fill-available;
-  background-color:#efe;
+  min-height:100vmin;
+  height:100vmin;
   font-family:'Arial', 'Meiryo UI';
-  /* 子要素を水平・垂直方向の中央揃え */
+  background-color:#efe;
+}
+.article{
+  /* 子要素(設定画面)を水平・垂直方向の中央揃え */
   display:flex;
   justify-content:center;
   align-items:center;
-  -webkit-text-size-adjust:100%; /* iPhoneで文字サイズが勝手に大きくならないように */
-  text-size-adjust:100%;
 }
+@media screen and (orientation:portrait) {
+.article{ /* 縦画面の時は横向きに表示し、横画面にするよう促す */
+  width:100vh;
+  height:100vw;
+  margin:-100vw 0 100vh;
+  transform:rotate(90deg);
+  transform-origin:left bottom;
+}}
+
 /* Grid Layout settings ------------------------------------- */
-/* 以下すべて相対サイズにし、レスポンシブ対応可能にしておく */
+/* 横画面基準の相対サイズにし、レスポンシブ対応可能にしておく */
 #mainwindow{
   display:grid; /* Grid Layout でコンテンツを配置 */
-  grid-template-columns:40% 20% 40%;
-  grid-template-rows:40vh 40vh 15vh; /* ボタン下に隙間を空けるため、敢えて100vhにしない */
+  grid-template-columns:40vmax 20vmax 40vmax;
+  grid-template-rows:40vmin 40vmin 20vmin;
   grid-template-areas:
      'score1 matchinfo    score2'
      'score1 crawfordinfo score2'
@@ -50,50 +60,50 @@ body{
 }
 #crawfordinfo{
   grid-area:crawfordinfo;
+  align-self:start; /* matchinfoに寄せて上詰め */
 }
 #settingbtn{
   grid-area:settingbtn;
+  align-self:start; /* ボタン下に隙間を空けるため上詰め */
 }
 /* Contents decorations ------------------------------------- */
 #matchinfo{
-  width:18vw;
-  height:30vh;
-  line-height:30vh;
+  width:18vmax;
+  height:30vmin;
+  line-height:30vmin;
   text-align:center;
-  font-size:10vw;
+  font-size:10vmax;
   border-radius:20px;
   background-color:#dfa;
 }
 #crawfordinfo{
-  margin-top:5vh;
-  height:30vh;
-  font-size:3vw;
+  font-size:3vmax;
   text-align:center;
 }
 .oparationbtn{
-  padding:2vh 2vw;
-  background-color:#bef;
-  border:3px solid;
+  padding:2vmin 2vmax;
+  font-size:2vmax;
   color:#29f;
-  border-radius:4vw;
-  font-size:2vw;
+  border:3px solid;
+  border-radius:20px;
+  background-color:#bef;
 }
 /* Flip Card styles ------------------------------------- */
 .cardcontainer{
-  width:38vw;
-  height:96vh;
+  width:38vmax;
+  height:96vmin;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 .card{
   position:absolute;
-  width:38vw;
-  height:96vh;
-  line-height:96vh;
+  width:38vmax;
+  height:96vmin;
+  line-height:96vmin;
   border-radius:30px;
   text-align:center;
-  font-size:25vw;
+  font-size:25vmax;
   background-color:#ddf;
   transform-style:preserve-3d;
 }
@@ -145,24 +155,16 @@ body{
 /* Setting Window decorations ------------------------------------- */
 #settingwindow{
   position:absolute;
-  font-size:2vw;
-  background-color:#dff;
-  border:3px solid #00f;
+  padding:2vmin 2vmax;
+  font-size:2vmax;
   text-align:center;
-  margin:2vh 5vw;
-  padding:2vh 2vw;
+  border:3px solid #33f;
+  background-color:#dff;
   display:none;
 }
-#settingwindow select{
-  font-size:2vw;
-  padding:0 0.3vw;
-  margin:0 1vw;
-  text-align:center;
-  /*appearance:none;*/
-}
 .settingtitle{
-  font-size:3vw;
-  padding:2vh 2vw;
+  padding:2vmin 2vmax;
+  font-size:3vmax;
   color:#fff;
   background-color:#29f;
 }

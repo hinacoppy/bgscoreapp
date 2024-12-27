@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<meta name="description" content="Backgammon Score board App">
-<meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App">
-<meta name="author" content="(C)hinacoppy 2019 - 2023">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="css/bgscore.css">
-<link rel="icon" href="icon/favicon.ico">
-<link rel="apple-touch-icon" href="icon/apple-touch-icon.png">
-<title>bgscore</title>
+  <meta charset="UTF-8" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+  <meta name="description" content="Backgammon Score board App" />
+  <meta name="description" content="Inspired by hkitago's Backgammon Scoreboard App" />
+  <meta name="author" content="(C)hinacoppy 2019 - 2024" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/bgscore.css" />
+  <link rel="icon" href="icon/favicon.ico" />
+  <link rel="apple-touch-icon" href="icon/apple-touch-icon.png" />
+  <title>bgscore</title>
 </head>
-
 <body>
-<article id="mainwindow" class="mainwin">
-<div id="score1" class="cardcontainer">
-<div id="score1curr" class="card curr">0</div>
-<div id="score1next" class="card next"></div></div>
+  <article class="article">
+   <section id="mainwindow" class="mainwin">
+    <div id="score1" class="cardcontainer">
+     <div id="score1curr" class="card curr">0</div>
+     <div id="score1next" class="card next"></div>
+    </div>
 
-<div id="score2" class="cardcontainer">
-<div id="score2curr" class="card curr">0</div>
-<div id="score2next" class="card next"></div></div>
+    <div id="score2" class="cardcontainer">
+     <div id="score2curr" class="card curr">0</div>
+     <div id="score2next" class="card next"></div>
+    </div>
 
-<div id="matchinfo">5</div>
-<div id="crawfordinfo"></div>
-<button id="settingbtn" class="oparationbtn">SETTINGS</button>
-</article>
+    <div id="matchinfo">5</div>
+    <div id="crawfordinfo"></div>
+    <button id="settingbtn" class="oparationbtn">SETTINGS</button>
+   </section>
 
-<!-- 設定画面 -->
-<aside id="settingwindow" class="setting">
-<div class="settingtitle">### Backgammon Score board App Settings ###</div>
-<p>
-Match length:
-<select id="matchlength" name="matchlength">
-<option value="$">$</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="5" selected>5</option>
-<option value="7">7</option>
-<option value="9">9</option>
-<option value="11">11</option>
-<option value="13">13</option>
-<option value="15">15</option>
-<option value="17">17</option>
-<option value="19">19</option>
-<option value="21">21</option>
-<option value="23">23</option>
-<option value="25">25</option>
-</select>
-($ = Unlimited)
-</p>
-<p>
-<button id="applybtn" class="oparationbtn">RESET SCORE</button> &emsp;&emsp;&emsp;&emsp;
-<button id="cancelbtn" class="oparationbtn">&emsp;CANCEL&emsp;</button>
-</p>
+   <!-- 設定画面 -->
+   <aside id="settingwindow" class="setting">
+    <div class="settingtitle">### Backgammon Score board App Settings ###</div>
+    <p>
+     Match length:
+     <select id="matchlength" name="matchlength">
+      <option value="$">$</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="5" selected>5</option>
+      <option value="7">7</option>
+      <option value="9">9</option>
+      <option value="11">11</option>
+      <option value="13">13</option>
+      <option value="15">15</option>
+      <option value="17">17</option>
+      <option value="19">19</option>
+      <option value="21">21</option>
+      <option value="23">23</option>
+      <option value="25">25</option>
+     </select>
+     ($ = Unlimited)
+    </p>
+    <p>
+     <button id="applybtn" class="oparationbtn">RESET SCORE</button> &emsp;&emsp;&emsp;&emsp;
+     <button id="cancelbtn" class="oparationbtn">&emsp;CANCEL&emsp;</button>
+    </p>
 
-<h3>使い方</h3>
-<p>
-[RESET SCORE] をタップすると、スコアは 0 にリセットされます。<br><br>
-カードがめくれなくなった時は、一度設定画面に切り替えてください。<br>
-その際は [CANCEL] ボタンで戻ってください。<br><br>
-カードを左または下方向にスワイプすれば、数字を戻すことができます。
-</p>
-</aside>
+    <h3>使い方</h3>
+    <p>
+     [RESET SCORE] をタップすると、スコアは 0 にリセットされます。<br />
+     <br />
+     カードがめくれなくなった時は、一度設定画面に切り替えてください。<br />
+     その際は [CANCEL] ボタンで戻ってください。<br />
+     <br />
+     カードを左または下方向にスワイプすれば、数字を戻すことができます。
+    </p>
+   </aside>
+  </article>
 
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script src="js/swipetracker_class.js"></script>
