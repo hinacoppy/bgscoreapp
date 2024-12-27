@@ -26,6 +26,7 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  position:relative;
 }
 @media screen and (orientation:portrait) {
 .article{ /* 縦画面の時は横向きに表示し、横画面にするよう促す */
